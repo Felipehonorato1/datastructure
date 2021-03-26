@@ -10,6 +10,6 @@ Complex *complex_sum(Complex *complex_a, Complex *complex_b);
 Complex *complex_sub(Complex *complex_a, Complex *complex_b);
 Complex *complex_mul(Complex *complex_a, Complex *complex_b);
 Complex *complex_div(Complex *complex_a, Complex *complex_b);
-void free_complex(Complex *comp);
+void free_complex(Complex **comp);
 
 #endif

@@ -18,8 +18,8 @@ int main()
     get_complex(sum, &x, &y);
     printf("\aDepois da soma entre o novo complexo 1 e o complexo 2: %.2f  e %.2f\n", x, y);
 
-    free_complex(comp1);
-    free_complex(comp2);
-    free_complex(sum);
+    free_complex(&comp1);
+    free_complex(&comp2);
+    free_complex(&sum);
     return 0;
 }

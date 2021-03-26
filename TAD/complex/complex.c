@@ -90,9 +90,10 @@ Complex *complex_div(Complex *complex_a, Complex *complex_b)
     return div;
 }
 
-void free_complex(Complex *comp)
+void free_complex(Complex **comp)
 {
-    free(comp);
+    free(*comp);
+    *comp = NULL;
 }
 
 #endif
