@@ -164,5 +164,8 @@ int list_size(No *lhead)
     }
     return counter;
 }
-
+int is_empty(No *lhead)
+{
+    return (lhead == NULL);
+}
 #endif
