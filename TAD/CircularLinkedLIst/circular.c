@@ -135,14 +135,21 @@ int is_empty(No *lhead)
 }
 int list_size(No *lhead)
 {
-    int counter = 0;
-    No *p = lhead;
-    do
+    if (lhead != NULL)
     {
-        counter++;
-        p = p->prox;
-    } while (p != lhead);
-    return counter;
+        return 0;
+    }
+    else
+    {
+        int counter = 0;
+        No *p = lhead;
+        do
+        {
+            counter++;
+            p = p->prox;
+        } while (p != lhead);
+        return counter;
+    }
 }
 int exists(No *lhead, int info)
 {
@@ -171,15 +178,19 @@ void print_list(No *lhead)
 
 void clear_list(No **lhead)
 {
-    No *p = *lhead;
-    No *aux;
-    while (p != NULL)
+    if (!is_empty(*lhead))
     {
-        aux = p;
-        free(aux);
-        p = p->prox;
+        No *p = (*lhead)->prox;
+        No *aux = NULL;
+
+        while (p != *lhead)
+        {
+            aux = p->prox;
+            free(p);
+            p = aux;
+        }
+        free(*lhead);
+        *lhead = NULL;
     }
-    *lhead = NULL;
-    free
 }
 #endif
