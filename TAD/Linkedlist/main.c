@@ -4,11 +4,11 @@
 
 int main()
 {
-    Lista *l = cria_lista();
+    No *l = NULL;
     printf("List is empty: %d \n", llist_is_empty(l));
-    insert_on_top(l, 15);
-    insert_on_top(l, 30);
-    insert_on_top(l, 45);
+    insert_on_top(&l, 15);
+    insert_on_top(&l, 30);
+    insert_on_top(&l, 45);
     insert_end(l, 0);
     print_elements(l);
     printf("Do 15 exists on our List? %d\n", exists(l, 15));
@@ -16,17 +16,8 @@ int main()
     remove_item(l, 15);
     printf("Do 15 exists on our List? %d\n", exists(l, 15));
     printf("List size: %d elements\n", list_size(l));
-    clear_list(l);
-    printf("List cleaned size: %d\n", llist_is_empty(l));
-    printf("List is empty: %d \n", llist_is_empty(l));
-    Lista *c = cria_lista();
-    insert_sorted(c, 1);
-    insert_sorted(c, 2);
-    insert_sorted(c, 5);
-    insert_sorted(c, 4);
-    insert_sorted(c, 3);
-    print_elements(c);
-    clear_list(c);
-
+    printf("Clearing list\n");
+    clear_list(&l);
+    printf("List size: %d elements\n", list_size(l));
     return 0;
 }
