@@ -14,6 +14,6 @@ int stack_pop(Stack *s, int *value);
 
 int stack_size(Stack *s);
 void print_stack(Stack *s);
-void clear_stack(Stack *s);
+void clear_stack(Stack **s);
 
 #endif

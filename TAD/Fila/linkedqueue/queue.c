@@ -65,6 +65,7 @@ int remove_element(Queue **q, int *value)
     if (!is_empty(*q))
     {
         Node *p = (*q)->lhead;
+        *value = p->value;
         (*q)->lhead = p->next;
         free(p);
         return 1;

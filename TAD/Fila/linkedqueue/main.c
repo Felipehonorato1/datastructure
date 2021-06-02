@@ -16,7 +16,7 @@ int main()
     {
         if (remove_element(&q, &value))
         {
-            printf("Removed element %d\n", i);
+            printf("Removed element %d\n", value);
         }
     }
     print_queue(q);

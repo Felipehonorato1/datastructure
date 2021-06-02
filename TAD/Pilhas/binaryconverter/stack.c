@@ -10,7 +10,7 @@ struct no
     No *prox;
     int value;
 };
-typedef struct stack
+struct stack
 {
     No *lhead;
 };
@@ -48,6 +48,10 @@ int stack_push(Stack *s, int value)
 }
 int stack_pop(Stack *s, int *value)
 {
+    ]if(!s)
+    {
+        return 0;
+    }
     No *p = s->lhead;
     *value = p->value;
     s->lhead = p->prox;
@@ -72,6 +76,10 @@ int stack_size(Stack *s)
 
 void print_stack(Stack *s)
 {
+    if (!s)
+    {
+        return;
+    }
     for (No *p = s->lhead; p != NULL; p = p->prox)
     {
         printf("%d ", p->value);
@@ -91,20 +99,21 @@ int convert(int value)
         stack_push(s, value % 2);
     }
     print_stack(s);
-    clear_stack(s);
+    clear_stack(&s);
     printf("\nStack size after cleaning: %d\n", stack_size(s));
     print_stack(s);
 }
 
-void clear_stack(Stack *s)
+void clear_stack(Stack **s)
 {
-    No *lhead = s->lhead;
-    for (No *p = lhead; p != NULL; p = p->prox)
+    No *lhead = (*s)->lhead;
+    for (No *p = lhead; p != NULL;)
     {
-        No *aux = p;
-        free(aux);
+        No *aux = p->prox;
+        free(p);
+        p = aux;
     }
-    s = NULL;
-    free(s);
+    *s = NULL;
+    free(*s);
 }
 #endif
