@@ -128,7 +128,7 @@ int remove_node(Node *n, int value)
             free(t);
         }
         else
-        {
+        { // INCOMPLETO
             // Quando tem os dois filhos
             Node *t = n;
             n = n->right;

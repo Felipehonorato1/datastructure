@@ -4,7 +4,16 @@
 typedef struct node Node;
 typedef struct avl_tree AVLTree;
 
-int insert_avl_node(AVLTree *t, Node *p);
-int check_node_balancement(Node *p);
+int get_altura(Node *p);
+
+int max(int a, int b);
+
+Node *insert_avl_node(AVLTree *t, int value);
+int insert_tree(AVLTree *t, int value);
+
+Node *create_node(int value);
+AVLTree *create_tree(Node *r);
+
+int balanceamento(Node *p);
 
 #endif
