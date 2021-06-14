@@ -2,6 +2,8 @@
 #define AVL_TREE_C_
 #include "avl_tree.h"
 #include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int max(int a, int b)
 {
@@ -24,78 +26,145 @@ Node *create_node(int value)
         p->info = value;
         p->right = NULL;
         p->left = NULL;
-        p->altura = 1;
+        p->altura = 0;
     }
     return p;
-}
-
-struct avl_tree
-{
-    Node *root;
-};
-AVLTree *create_tree(Node *r)
-{
-    AVLTree *t = (AVLTree *)malloc(sizeof(AVLTree));
-    if (t)
-    {
-        t->root = r;
-    }
-    return t;
 }
 
 Node *insert_avl_node(Node *p, int value)
 {
     if (p == NULL)
     {
-        return;
+        return create_node(value);
     }
     else
     { // Caso o valor seja maior que o nó atual;
         if (value > p->info)
         {
-            if (p->right == NULL)
-            {
-                p->right = create_node(value);
-                p->altura++;
-                return p;
-            }
-            else
-                insert_avl_node(p->right, value);
+            p->right = insert_avl_node(p->right, value);
         }
         // Inserção na subarvore esquerda
         if (value < p->info)
         {
-            if (p->left == NULL)
-            {
-                p->left = create_node(value);
-                p->altura++;
-                return p;
-            }
-            else
-                insert_avl_node(p->left, value);
+            p->left = insert_avl_node(p->left, value);
         }
     }
-    return NULL;
+    p->altura = 1 + max(get_altura(p->right), get_altura(p->left));
+
+    int fator = balanceamento(p);
+    // Right right
+    if (fator < -1 && value > p->right->info)
+    {
+        return rotate_left(p);
+    }
+    // Right Left
+    else if (fator < -1 && value < p->right->info)
+    {
+        p->right = rotate_right(p->right);
+        return rotate_left(p);
+    }
+
+    // Left left
+    else if (fator > 1 && value < p->left->info)
+    {
+        return rotate_right(p);
+    }
+
+    // Left Right
+    else if (fator > 1 && value > p->left->info)
+    {
+        p->left = rotate_left(p->left);
+        return rotate_right(p);
+    }
+
+    return p;
 }
-int insert_tree(AVLTree *t, int value)
-{
-    Node *p = insert_avl_node(t->root, value); // Node where the new one was inserted.
-}
+
 int get_altura(Node *p)
 {
     if (p == NULL)
     {
-        return 0;
+        return -1;
     }
     return p->altura;
 }
 
 int balanceamento(Node *p)
 {
-    int factor = get_altura(p->right) - get_altura(p->left);
-    // Se o fator for positivo e maior que 1, a árvore da direita está desbalanceada -> fazer rotação a esquerda.
-    // Se o fator for negativo e menor que -1, a árvore da esquerda está desbalanceada -> fazer rotação à direita.
+    int factor = get_altura(p->left) - get_altura(p->right);
     return factor;
 }
 
+void in_order(Node *p)
+{
+    if (p == NULL)
+        return;
+
+    in_order(p->left);
+    // printf("%d, altura_total = %d, altura_esq = %d, altura_dir = %d, fator = [%d]\n", p->info, p->altura, get_altura(p->left), get_altura(p->right), balanceamento(p));
+    in_order(p->right);
+}
+
+Node *rotate_right(Node *a)
+{
+    Node *new_root = a->left;
+    Node *T2 = new_root->right;
+
+    // Rotaciona:
+    new_root->right = a;
+    a->left = T2;
+
+    a->altura = 1 + max(get_altura(a->right), get_altura(a->left));
+    new_root->altura = 1 + max(get_altura(new_root->right), get_altura(new_root->left));
+
+    return new_root;
+}
+
+Node *rotate_left(Node *x)
+{
+    // A -> Desbalanceado, B-> filho da esquerda de A, C-> filho da direita de A
+    Node *y = x->right;
+    Node *T2 = y->left;
+
+    // Perform rotation
+    y->left = x;
+    x->right = T2;
+
+    //  Update heights
+    x->altura = max(get_altura(x->left), get_altura(x->right)) + 1;
+    y->altura = max(get_altura(y->left), get_altura(y->right)) + 1;
+
+    // Return new root
+    return y;
+}
+
+Node *delete_node(Node *p, int value)
+{
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        if (value > p->info)
+        {
+            p->right = delete_node(p->right, value);
+        }
+        else if (value < p->info)
+        {
+            p->left = delete_node(p->left, value);
+        }
+        else
+        {
+            // Meaning that we have found P;
+            if (p->right != NULL && p->left != NULL)
+            {
+            }
+        }
+
+        // Atualizando as alturas
+
+        return p;
+    }
+}
 #endif
